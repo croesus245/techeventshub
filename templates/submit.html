@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Event{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow">
+            <div class="card-body p-4">
+                <h2 class="mb-4 text-success fw-bold">Submit New Event</h2>
+                
+                <form method="POST" class="needs-validation" novalidate>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Event Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                            <div class="invalid-feedback">Please provide an event name.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">College Name</label>
+                            <input type="text" name="college_name" class="form-control" required>
+                            <div class="invalid-feedback">Please provide a college name.</div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="3" required></textarea>
+                            <div class="invalid-feedback">Please provide a description.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Date & Time</label>
+                            <input type="datetime-local" name="date" class="form-control" required>
+                            <div class="invalid-feedback">Please select a date and time.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Event Type</label>
+                            <select name="event_type" class="form-select" required>
+                                <option value="hackathon">Hackathon</option>
+                                <option value="workshop">Workshop</option>
+                                <option value="tech talk">Tech Talk</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-8">
+                            <label class="form-label">Location</label>
+                            <input type="text" name="location" class="form-control" required>
+                            <div class="invalid-feedback">Please provide a location.</div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Registration Link</label>
+                            <input type="url" name="registration_link" class="form-control" required>
+                            <div class="invalid-feedback">Please provide a valid URL.</div>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-primary-green w-100 py-3">
+                                <i class="bi bi-check2-circle me-2"></i>Submit Event
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+(() => {
+  'use strict'
+  const forms = document.querySelectorAll('.needs-validation')
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Tech Events Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-5 fw-bold text-success">Upcoming Tech Events</h1>
+    
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <form class="d-flex">
+                <input type="search" name="search" value="{{ request.args.get('search', '') }}"
+                    class="form-control" placeholder="Search events...">
+                    <!-- Add this to your filter section -->
+<div class="col-md-3">
+    <input type="search" 
+           name="college" 
+           value="{{ request.args.get('college', '') }}"
+           class="form-control" 
+           placeholder="Search by college...">
+</div>
+                <button class="btn btn-primary-green ms-2" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" onchange="window.location.href=this.value">
+                <option value="{{ url_for('index') }}">All Categories</option>
+                <option value="{{ url_for('index', type='hackathon') }}"
+                    {% if request.args.get('type') == 'hackathon' %}selected{% endif %}>
+                    Hackathons
+                </option>
+                <option value="{{ url_for('index', type='workshop') }}"
+                    {% if request.args.get('type') == 'workshop' %}selected{% endif %}>
+                    Workshops
+                </option>
+                <option value="{{ url_for('index', type='tech talk') }}"
+                    {% if request.args.get('type') == 'tech talk' %}selected{% endif %}>
+                    Tech Talks
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for event in events %}
+        <div class="col">
+            <div class="card card-hover h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-primary-green">{{ event.event_type }}</span>
+                        <small class="text-muted">{{ event.college_name }}</small>
+                    </div>
+                    <h5 class="card-title fw-bold">{{ event.name }}</h5>
+                    <p class="card-text text-muted">{{ event.description[:120] }}...</p>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <a href="{{ url_for('event_detail', event_id=event.id) }}" 
+                           class="btn btn-primary-green btn-sm">
+                            Details <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <small class="text-muted">
+                            <i class="bi bi-calendar"></i> {{ event.date.strftime('%b %d') }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if pagination.pages > 1 %}
+    <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+            {% for page_num in range(1, pagination.pages + 1) %}
+            <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                <a class="page-link" 
+                   href="{{ url_for('index', page=page_num, search=request.args.get('search'),college=request.args.get('college'),  type=request.args.get('type')) }}">
+                    {{ page_num }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

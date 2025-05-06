@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card border-0 shadow-lg">
+        <div class="card-body p-5">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="display-5 fw-bold text-success mb-3">{{ event.name }}</h1>
+                    <div class="d-flex gap-2 mb-4">
+                        <span class="badge bg-primary-green fs-5">{{ event.event_type }}</span>
+                        <span class="badge bg-secondary fs-5">{{ event.college_name }}</span>
+                    </div>
+                    <p class="lead">{{ event.description }}</p>
+                    
+                    <div class="row mt-5 g-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">
+                                        <i class="bi bi-calendar-event me-2"></i>Date & Time
+                                    </h5>
+                                    <p class="card-text">{{ event.date.strftime('%A, %B %d, %Y @ %I:%M %p') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">
+                                        <i class="bi bi-geo-alt me-2"></i>Location
+                                    </h5>
+                                    <p class="card-text">{{ event.location }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <a href="{{ event.registration_link }}" 
+                               class="btn btn-primary-green btn-lg w-100 mb-3 py-3"
+                               target="_blank">
+                                Register Now <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                            <hr>
+                            <h5 class="text-success mb-3">Event Details</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="bi bi-building me-2"></i>{{ event.college_name }}
+                                </li>
+                                <li class="mb-2">
+                                    <i class="bi bi-link-45deg me-2"></i>
+                                    <a href="{{ event.registration_link }}" class="text-decoration-none">
+                                        Registration Link
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
